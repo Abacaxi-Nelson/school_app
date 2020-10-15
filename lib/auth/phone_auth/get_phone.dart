@@ -61,44 +61,40 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
 
   @override
   Widget build(BuildContext context) {
-    //  Fetching height & width parameters from the MediaQuery
-    //  _logoPadding will be a constant, scaling it according to device's size
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     _fixedPadding = _height * 0.025;
     final countriesProvider = Provider.of<CountryProvider>(context);
     final loader = Provider.of<PhoneAuthDataProvider>(context).loading;
-    /*  Scaffold: Using a Scaffold widget as parent
-     *  SafeArea: As a precaution - wrapping all child descendants in SafeArea, so that even notched phones won't loose data
-     *  Center: As we are just having Card widget - making it to stay in Center would really look good
-     *  SingleChildScrollView: There can be chances arising where
-     */
 
     return Scaffold(
-        key: scaffoldKey, backgroundColor: Color(0xff9188E5), body: Center(child: _getColumnBody(countriesProvider)));
+      key: scaffoldKey,
+      backgroundColor: Color(0xff9188E5),
+      body: _getColumnBody(countriesProvider),
+    );
   }
 
-  Widget _getColumnBody(CountryProvider countriesProvider) => Column(
-        //mainAxisSize: MainAxisSize.min,
+  Widget _getColumnBody(CountryProvider countriesProvider) => Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
-              height: 150.0,
-              width: double.infinity,
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, mainAxisSize: MainAxisSize.max, children: [
-                Text("totot"),
-                Text("totot"),
-                Text("totot"),
-                /*
-                ShowSelectedCountry(
-                  country: countriesProvider.selectedCountry,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SelectCountry()),
-                    );
-                  },
-                )
-                */
-              ])),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, mainAxisSize: MainAxisSize.max, children: [
+            Text("totot"),
+            Text("totot"),
+            Text("totot"),
+            /*
+              ShowSelectedCountry(
+                country: countriesProvider.selectedCountry,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SelectCountry()),
+                  );
+                },
+              )
+              */
+          ]),
           Padding(
               padding: EdgeInsets.only(left: _fixedPadding, right: _fixedPadding),
               child: ShowSelectedCountry(
@@ -140,12 +136,6 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
               SizedBox(width: _fixedPadding),
             ],
           ),
-
-          /*
-           *  Button: OnTap of this, it appends the dial code and the phone number entered by the user to send OTP,
-           *  knowing once the OTP has been sent to the user - the user will be navigated to a new Screen,
-           *  where is asked to enter the OTP he has received on his mobile (or) wait for the system to automatically detect the OTP
-           */
           SizedBox(height: _fixedPadding * 1.5),
           RaisedButton(
             elevation: 16.0,
@@ -161,7 +151,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
           ),
         ],
-      );
+      ));
 
   _showSnackBar(String text) {
     final snackBar = SnackBar(
