@@ -1,8 +1,10 @@
-import 'package:apple_sign_in_firebase_flutter/apple_sign_in_available.dart';
-import 'package:apple_sign_in_firebase_flutter/auth_service.dart';
-import 'package:apple_sign_in_firebase_flutter/sign_in_page.dart';
+import 'package:school_app/apple_sign_in_available.dart';
+import 'package:school_app/auth_service.dart';
+import 'package:school_app/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_app/landing.dart';
+import 'package:school_app/screen/onboarding/screen2.dart';
 
 void main() async {
   // Fix for: Unhandled Exception: ServicesBinding.defaultBinaryMessenger was accessed before the binding was initialized.
@@ -25,7 +27,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.indigo,
         ),
-        home: SignInPage(),
+        //home: LandingPage(),
+        home: Screen2Page(),
       ),
     );
   }

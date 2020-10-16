@@ -1,6 +1,6 @@
-import 'package:apple_sign_in/apple_sign_in.dart';
-import 'package:apple_sign_in_firebase_flutter/apple_sign_in_available.dart';
-import 'package:apple_sign_in_firebase_flutter/auth_service.dart';
+import 'package:apple_sign_in/apple_sign_in.dart' as ios;
+import 'package:school_app/apple_sign_in_available.dart';
+import 'package:school_app/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,8 +18,7 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appleSignInAvailable =
-        Provider.of<AppleSignInAvailable>(context, listen: false);
+    final appleSignInAvailable = Provider.of<AppleSignInAvailable>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign In'),
@@ -30,9 +29,9 @@ class SignInPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (appleSignInAvailable.isAvailable)
-              AppleSignInButton(
-                style: ButtonStyle.black,
-                type: ButtonType.signIn,
+              ios.AppleSignInButton(
+                style: ios.ButtonStyle.black,
+                type: ios.ButtonType.signIn,
                 onPressed: () => _signInWithApple(context),
               ),
           ],
