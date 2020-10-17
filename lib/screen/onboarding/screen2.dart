@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:school_app/widget/textfield.dart';
 import 'package:school_app/widget/button.dart';
+import 'package:school_app/screen/onboarding/address_search.dart';
+import 'package:school_app/screen/onboarding/suggestion.dart';
 
 class Screen2Page extends StatefulWidget {
   @override
@@ -8,34 +10,25 @@ class Screen2Page extends StatefulWidget {
 }
 
 class _Screen2PageState extends State<Screen2Page> {
-  final myControllerNom = TextEditingController();
-  final myControllerPrenom = TextEditingController();
-  bool isPrenomOk = false;
-  bool isNomOk = false;
+  final myControllerEcole = TextEditingController();
+  bool isEcoleOk = false;
+  Suggestion sug = null;
 
   @override
   void dispose() {
-    myControllerNom.dispose();
-    myControllerPrenom.dispose();
+    myControllerEcole.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    myControllerNom.addListener(_getNomValue);
-    myControllerPrenom.addListener(_getPrenomValue);
+    myControllerEcole.addListener(_getNomValue);
   }
 
   _getNomValue() {
     setState(() {
-      isNomOk = myControllerNom.text.length >= 3;
-    });
-  }
-
-  _getPrenomValue() {
-    setState(() {
-      isPrenomOk = myControllerPrenom.text.length >= 3;
+      isEcoleOk = myControllerEcole.text.length >= 3;
     });
   }
 
@@ -47,14 +40,16 @@ class _Screen2PageState extends State<Screen2Page> {
         //resizeToAvoidBottomInset: false,
         backgroundColor: Color(0xff9188E5),
         body: Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0), //const EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(
+                vertical: 16.0, horizontal: 16.0), //const EdgeInsets.all(16.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
                       child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 50.0), //const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 20.0), //const EdgeInsets.all(16.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,22 +57,35 @@ class _Screen2PageState extends State<Screen2Page> {
                         SizedBox(height: 40.0),
                         Text('Super ! Dans quelle école est tu ?',
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white)),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Colors.white)),
                         SizedBox(height: 20.0),
                         CustomTextField(
-                          suffixIcon: isNomOk,
-                          keyboardType: TextInputType.name,
+                          onTap: () async {
+                            final Suggestion result = await showSearch(
+                              context: context,
+                              // we haven't created AddressSearch class
+                              // this should be extending SearchDelegate
+                              delegate: AddressSearch(),
+                            );
+                            if (result != null) {
+                              print("passage");
+                              print(result);
+                              setState(() {
+                                sug = result;
+                                isEcoleOk = true;
+                                myControllerEcole.text =
+                                    result.appellation_officielle;
+                              });
+                            }
+                          },
+                          suffixIcon: isEcoleOk,
+                          keyboardType: TextInputType.multiline,
                           inputFormatters: [],
-                          hintText: "Julien",
-                          controller: myControllerPrenom,
-                        ),
-                        SizedBox(height: 5.0),
-                        CustomTextField(
-                          suffixIcon: isPrenomOk,
-                          keyboardType: TextInputType.name,
-                          inputFormatters: [],
-                          hintText: "Dupuy",
-                          controller: myControllerNom,
+                          hintText: "Ecole la beouzo",
+                          controller: myControllerEcole,
                         ),
                       ],
                     ),
@@ -89,8 +97,12 @@ class _Screen2PageState extends State<Screen2Page> {
                   SizedBox(height: 20.0),
                   CustomButton(
                     borderColor: Colors.transparent,
-                    color: !(isNomOk && isPrenomOk) ? Colors.white.withAlpha(50) : Color(0xffFFCA5D),
-                    color2: !(isNomOk && isPrenomOk) ? Color(0xff0D0A06).withAlpha(50) : Color(0xff0D0A06),
+                    color: !(isEcoleOk)
+                        ? Colors.white.withAlpha(50)
+                        : Color(0xffFFCA5D),
+                    color2: !(isEcoleOk)
+                        ? Color(0xff0D0A06).withAlpha(50)
+                        : Color(0xff0D0A06),
                     label: "Continuer",
                     onPressed: () async {
                       //if (isNomOk && isPrenomOk) {

@@ -8,20 +8,24 @@ class CustomTextField extends StatelessWidget {
       @required this.inputFormatters,
       @required this.hintText,
       @required this.controller,
-      @required this.suffixIcon});
+      @required this.suffixIcon,
+      this.onTap});
   final TextInputType keyboardType;
   final List<TextInputFormatter> inputFormatters;
   final String hintText;
   final TextEditingController controller;
   final bool suffixIcon;
+  final GestureTapCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
         decoration: InputDecoration(
-          suffixIcon: Icon(suffixIcon ? Icons.done : Icons.close, color: Color(0xffFFCA5D)),
+          suffixIcon: Icon(suffixIcon ? Icons.done : Icons.close,
+              color: Color(0xffFFCA5D)),
           hintText: hintText,
-          hintStyle: TextStyle(fontSize: 16, color: Colors.white.withOpacity(0.4)),
+          hintStyle:
+              TextStyle(fontSize: 16, color: Colors.white.withOpacity(0.4)),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
@@ -38,6 +42,9 @@ class CustomTextField extends StatelessWidget {
           fontSize: 16,
           color: Color(0xffFFCA5D),
         ),
+        onTap: onTap == null ? () {} : onTap,
+        minLines: 1, //Normal textInputField will be displayed
+        maxLines: 5,
         controller: controller);
   }
 }
