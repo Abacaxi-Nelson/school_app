@@ -35,6 +35,7 @@ class AddressSearch extends SearchDelegate<Suggestion> {
 
   Future<List<Suggestion>> fetchSuggestions(String input) async {
     print(input);
+    print("titotot");
     final response = await http.get(
         'https://data.education.gouv.fr/api/records/1.0/search/?dataset=fr-en-adresse-et-geolocalisation-etablissements-premier-et-second-degre&q=(nature_uai_libe:ECOLE%20DE%20NIVEAU%20ELEMENTAIRE%20AND%20libelle_commune:' +
             input +
